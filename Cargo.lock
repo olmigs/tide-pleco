@@ -1666,6 +1666,7 @@ name = "tide_pleco"
 version = "0.1.0"
 dependencies = [
  "async-std",
+ "http-types",
  "log",
  "pleco",
  "serde",
