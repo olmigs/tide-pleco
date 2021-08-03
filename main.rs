@@ -3,8 +3,9 @@ use std::sync::{Arc, Mutex};
 use pleco::board::{Board, RandBoard};
 use pleco::board::movegen::MoveGen;
 use pleco::core::mono_traits::GenTypeTrait;
+use pleco:: MoveList;
 use log::info;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, Serializer};
 use tide::{Request, Response, Body};
 use http_types::headers::HeaderValue;
 use tide::security::{CorsMiddleware, Origin};
@@ -26,6 +27,11 @@ struct FenStr {
     fen: String,
 }
 
+#[derive(Serialize)]
+struct MoveVec {
+    moves: Vec<String>,
+}
+
 impl State {
     fn fen(&self) -> String {
         return self.board.lock().unwrap().fen();
@@ -42,8 +48,15 @@ impl State {
        let b2 = Board::from_fen(&fen).unwrap();
        self.update(b2);
     }
-    fn get_captures(&self) -> () {
-        // let moves = *self.board.lock().unwrap().generate_moves();
+    fn get_captures(&self) -> Vec<String> {
+        let b2 = self.board.lock().unwrap().clone();
+        let moves_list = b2.generate_moves();
+        let mut moves_vec = Vec::new();
+        for mov in moves_list {
+            moves_vec.push(pleco::core::piece_move::BitMove::stringify(mov));
+        }
+        return moves_vec;
+
     }
 }
 
@@ -108,8 +121,12 @@ async fn main() -> Result<(), std::io::Error> {
 
     // GET /captures
     app.at("/game/captures").get(|req: Request<State>| async move {
-        req.state().get_captures();
-        Ok("fuck")
+        let moves = req.state().get_captures();
+        // uncomment for a learning opportunity
+        // for mov in moves {
+        //     info!("{}", &mov);
+        // }
+        Ok(Body::from_json(&moves)?)
     });
     
     // start app
