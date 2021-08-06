@@ -1,11 +1,11 @@
 // use async_std::sync::{Arc, Mutex};
 use std::sync::{Arc, Mutex};
-use pleco::board::{Board, RandBoard};
-use pleco::board::movegen::MoveGen;
-use pleco::core::mono_traits::GenTypeTrait;
-use pleco:: MoveList;
+use pleco::board::{Board};
+// use pleco::board::movegen::MoveGen;
+// use pleco::core::mono_traits::GenTypeTrait;
+// use pleco:: MoveList;
 use log::info;
-use serde::{Deserialize, Serialize, Serializer};
+use serde::{Deserialize, Serialize};
 use tide::{Request, Response, Body};
 use http_types::headers::HeaderValue;
 use tide::security::{CorsMiddleware, Origin};
@@ -17,12 +17,12 @@ struct State {
     //board: Arc<Mutex<Board>>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Deserialize, Serialize)]
 struct UciMove {
     uci: String,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Deserialize, Serialize)]
 struct FenStr {
     fen: String,
 }
