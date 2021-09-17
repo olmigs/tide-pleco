@@ -48,7 +48,7 @@ impl State {
        let b2 = Board::from_fen(&fen).unwrap();
        self.update(b2);
     }
-    fn get_captures(&self) -> Vec<String> {
+    fn get_moves(&self) -> Vec<String> {
         let b2 = self.board.lock().unwrap().clone();
         let moves_list = b2.generate_moves();
         let mut moves_vec = Vec::new();
@@ -119,9 +119,9 @@ async fn main() -> Result<(), std::io::Error> {
         // Ok(format!("{}", req.state().board.fen()))
      });
 
-    // GET /captures
-    app.at("/game/captures").get(|req: Request<State>| async move {
-        let moves = req.state().get_captures();
+    // GET /moves
+    app.at("/game/moves").get(|req: Request<State>| async move {
+        let moves = req.state().get_moves();
         // uncomment for a learning opportunity
         // for mov in moves {
         //     info!("{}", &mov);
