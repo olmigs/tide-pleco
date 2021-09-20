@@ -77,6 +77,10 @@ async fn main() -> Result<(), std::io::Error> {
         .allow_credentials(false);
     app.with(cors);
 
+    app.at("/").get(|_| async 
+        { Ok(Body::from_file("public/index.html").await?) })
+        .serve_dir("public/")?;
+
     // GET /start
     app.at("/game/restart").get(|req: Request<State>| async move {
         req.state().update(Board::start_pos());
