@@ -1,0 +1,1 @@
+[{"name":"/game/restart","resp_type":"text","method":"GET"},{"name":"/game/pos","resp_type":"text","method":"GET"},{"name":"/game/set","resp_type":"text","method":"PUT"},{"name":"/game/rand","resp_type":"text","method":"GET"},{"name":"/game/move","resp_type":"text","method":"POST"},{"name":"/game/moves","resp_type":"json","method":"GET"}]

@@ -1,10 +1,14 @@
 <script>
+    import routes from '../routes.json';
     import Endpoint from './Endpoint.svelte';
-    export let server;
+    export let server, title;
 </script>
 
 <main>
-    <Endpoint server={server} name="set" type="PUT" />
+    <h1>api: {title}</h1>
+    {#each routes as rt}
+        <Endpoint server={server} name={rt.name} method={rt.method} type={rt.resp_type} />
+    {/each}
 </main>
 
 <style>

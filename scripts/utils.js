@@ -1,29 +1,16 @@
 import { callEndpoint } from './client_http';
 
-export function getRandomBoard(serv) {
-    callEndpoint(serv, 'rand', 'text')
-        .then((fen) => updateFEN(fen))
-        .catch((err) => console.log(err));
-}
-
-export function connectToServer(serv) {
-    callEndpoint(serv, 'pos', 'text')
-        .then((fen) => {
-            updateFEN(fen, serv);
-        })
-        .catch((err) => console.log(err));
-}
-
-export function sendUCI(uci, serv) {
-    var uci_wrapper = { uci: uci };
-    callEndpoint(serv, 'move', 'text', 'POST', uci_wrapper)
-        .then((fen) => updateFEN(fen.slice(1, fen.length - 1), serv)) // removes double quotes
-        .catch((err) => console.log(err));
-}
-
-export function sendFEN(fen, serv) {
-    var fen_wrapper = { fen: fen };
-    callEndpoint(serv, 'set', 'text', 'PUT', fen_wrapper)
-        .then((data) => console.log(data))
+export function endpointHandler(server, name, type, method, data) {
+    var data_wrapper;
+    switch (name) {
+        case '/game/move':
+            data_wrapper = { uci: data };
+            break;
+        case '/game/set':
+            data_wrapper = { fen: data };
+            break;
+    }
+    callEndpoint(server, name, type, method, data_wrapper)
+        .then((resp) => console.log(resp))
         .catch((err) => console.log(err));
 }

@@ -1,12 +1,14 @@
 <script>
-    import { sendFEN } from '../scripts/utils';
-    export let server, name, type;
-    let fen;
+    import { endpointHandler } from '../scripts/utils';
+    export let server, name, method, type;
+    let value = '';
 </script>
 
 <div>
     <div>
-        <input type="text" bind:value={fen}/>
-        <button on:click={() => sendFEN(fen, server)}>{name} {type}</button>
+        <button on:click={() => endpointHandler(server, name, type, method, value)}>{name} {method}</button>
+        {#if method != 'GET'}
+            <input type="text" bind:value={value}/>
+        {/if}
     </div>
 </div>

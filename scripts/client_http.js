@@ -6,14 +6,8 @@ function responseHandler(response, type) {
             return response.json();
     }
 }
-export function callEndpoint(
-    server,
-    endpoint,
-    respType,
-    method = 'GET',
-    data = ''
-) {
-    const url = server + '/game/' + endpoint;
+export function callEndpoint(server, endpoint, respType, method, data = '') {
+    const url = server + endpoint;
     if (method === 'GET') {
         return fetch(url, {
             method: 'GET',
