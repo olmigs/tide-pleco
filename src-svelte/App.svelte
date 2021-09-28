@@ -5,9 +5,15 @@
 </script>
 
 <main>
-    <h1>api: {title}</h1>
+    <h1>{title}</h1>
     {#each routes as rt}
-        <Endpoint server={server} name={rt.name} method={rt.method} type={rt.resp_type} />
+        <Endpoint 
+            server={server} 
+            name={rt.name} 
+            method={rt.method} 
+            type={rt.response_type} 
+            path={rt.path}
+        />
     {/each}
 </main>
 

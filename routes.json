@@ -1,1 +1,38 @@
-[{"name":"/game/restart","resp_type":"text","method":"GET"},{"name":"/game/pos","resp_type":"text","method":"GET"},{"name":"/game/set","resp_type":"text","method":"PUT"},{"name":"/game/rand","resp_type":"text","method":"GET"},{"name":"/game/move","resp_type":"text","method":"POST"},{"name":"/game/moves","resp_type":"json","method":"GET"}]
+[
+    {
+        "name": "reset",
+        "response_type": "text",
+        "method": "GET",
+        "path": "/game/restart"
+    },
+    {
+        "name": "position",
+        "response_type": "text",
+        "method": "GET",
+        "path": "/game/pos"
+    },
+    {
+        "name": "set",
+        "response_type": "text",
+        "method": "PUT",
+        "path": "/game/set"
+    },
+    {
+        "name": "random",
+        "response_type": "text",
+        "method": "GET",
+        "path": "/game/rand"
+    },
+    {
+        "name": "uci",
+        "response_type": "text",
+        "method": "POST",
+        "path": "/game/move"
+    },
+    {
+        "name": "moves",
+        "response_type": "json",
+        "method": "GET",
+        "path": "/game/moves"
+    }
+]

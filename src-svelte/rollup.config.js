@@ -35,12 +35,12 @@ function serve() {
 }
 
 export default {
-    input: 'src/main.js',
+    input: 'main.js',
     output: {
         sourcemap: true,
         format: 'iife',
         name: 'app',
-        file: 'public/build/bundle.js',
+        file: '../public/build/bundle.js',
     },
     plugins: [
         replace({

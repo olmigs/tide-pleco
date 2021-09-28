@@ -39,15 +39,17 @@ struct MoveVec {
 #[derive(Serialize)]
 struct Route {
     name: String,
-    resp_type: String,
+    response_type: String,
     method: String,
+    path: String,
 }
 
-fn def_route(name: String, resp_type: String, method: String) -> Route {
+fn def_route(name: &str, resp_type: &str, method: &str, path: &str) -> Route {
     Route { 
-        name, 
-        resp_type, 
-        method,
+        name: name.to_string(), 
+        response_type: resp_type.to_string(), 
+        method: method.to_string(),
+        path: path.to_string(),
      }
 }
 
@@ -107,14 +109,24 @@ async fn main() -> Result<(), std::io::Error> {
         req.state().update(Board::start_pos());
         Ok(format!("{}", req.state().fen()))
     });
-    routes.push(def_route(rt_restart.to_string(), "text".to_string(), "GET".to_string()));
+    routes.push(def_route(
+        "reset", 
+        "text", 
+        "GET", 
+        rt_restart
+    ));
 
     // GET /pos
     let rt_pos = "/game/pos";
     app.at(rt_pos).get(|req: Request<State>| async move {
         Ok(format!("{}", req.state().fen()))
     });
-    routes.push(def_route(rt_pos.to_string(), "text".to_string(), "GET".to_string()));
+    routes.push(def_route(
+        "position", 
+        "text", 
+        "GET",
+        rt_pos
+    ));
 
     // PUT /set
     let rt_set = "/game/set";
@@ -123,7 +135,12 @@ async fn main() -> Result<(), std::io::Error> {
         req.state().from_fen(fen_str.fen);
         Ok(format!("{}", req.state().fen()))
     });
-    routes.push(def_route(rt_set.to_string(), "text".to_string(), "PUT".to_string()));
+    routes.push(def_route(
+        "set", 
+        "text", 
+        "PUT",
+        rt_set
+    ));
 
     // GET /rand
     let rt_rand ="/game/rand";
@@ -134,7 +151,12 @@ async fn main() -> Result<(), std::io::Error> {
             .one();
         Ok(format!("{}", b_rand.fen()))
     });
-    routes.push(def_route(rt_rand.to_string(), "text".to_string(), "GET".to_string()));
+    routes.push(def_route(
+        "random", 
+        "text", 
+        "GET",
+        rt_rand
+    ));
 
     // GET /prev
 
@@ -151,7 +173,12 @@ async fn main() -> Result<(), std::io::Error> {
         Ok(res)
         // Ok(format!("{}", req.state().board.fen()))
      });
-    routes.push(def_route(rt_move.to_string(), "text".to_string(), "POST".to_string()));
+    routes.push(def_route(
+        "uci", 
+        "text", 
+        "POST",
+        rt_move
+    ));
 
     // GET /moves
     let rt_moves ="/game/moves";
@@ -163,7 +190,12 @@ async fn main() -> Result<(), std::io::Error> {
         // }
         Ok(Body::from_json(&moves)?)
     });
-    routes.push(def_route(rt_moves.to_string(), "json".to_string(), "GET".to_string()));
+    routes.push(def_route(
+        "moves",
+        "json", 
+        "GET",
+        rt_moves
+    ));
     
     // output routes to json
     let j = serde_json::to_string(&routes)?;
