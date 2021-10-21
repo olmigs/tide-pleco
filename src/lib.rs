@@ -7,10 +7,10 @@ use serde::{Serialize};
 pub struct MigsSearcher {}
 pub struct Manager {}
 
-impl Manager {
-    fn init() {}
-    fn 
-}
+// impl Manager {
+//     fn init() {}
+//     fn 
+// }
 
 #[derive(Clone, Debug)]
 pub struct State {
