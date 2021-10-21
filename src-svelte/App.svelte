@@ -1,5 +1,4 @@
 <script>
-    import { endpointHandler } from '../scripts/utils';
     import Endpoint from './Endpoint.svelte';
     export let server, title;
     const fetchRoutes = (async () => {
