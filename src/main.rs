@@ -5,7 +5,7 @@ use pleco::Board;
 use serde::{Deserialize, Serialize};
 use tide::security::{CorsMiddleware, Origin};
 use tide::{Body, Request, Response};
-use tide_pleco::{Route, State};
+use tide_pleco::{Route, State, Manager};
 
 #[derive(Deserialize, Serialize)]
 struct ClientMove {
@@ -24,8 +24,9 @@ struct MoveVec {
 
 #[async_std::main]
 async fn main() -> Result<(), std::io::Error> {
+    // let b = Board::default();
+    // let manage = Manager::init(21);
     let board = Arc::new(Mutex::new(Board::default()));
-
     tide::log::start();
     // instantiate Tide app using shared state
     let state = State::new(board.clone());
@@ -101,7 +102,7 @@ async fn main() -> Result<(), std::io::Error> {
             let uci_move: ClientMove = req.body_json().await?;
             // info!("{}", uci_move.uci);
             req.state().apply_move(uci_move.uci);
-            req.state().best_move();
+            // req.state().best_move(&manage);
             // thread::sleep(time::Duration::from_millis(1000));
             let mut res = Response::new(202);
             res.set_body(Body::from_json(&req.state().fen())?);
